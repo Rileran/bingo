@@ -52,7 +52,7 @@ export const EditSlotModal = ({
 
   const handleSave = () => {
     if (!slot) return;
-    onSave(slot.id, { title, imageUrl });
+    onSave(slot.id, { title, imageUrl, game: selectedOption });
     onOpenChange(false);
   };
 

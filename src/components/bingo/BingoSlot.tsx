@@ -48,12 +48,25 @@ export const BingoSlot = ({ slot, onClick, colorIndex }: BingoSlotProps) => {
           {slot.title && (
             <div className="pointer-events-none absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent px-3 py-2">
               <p
-                className="line-clamp-2 text-center text-sm font-semibold leading-snug text-white"
+                className="line-clamp-2 text-center text-xs font-semibold leading-snug text-white"
                 style={{
                   textShadow: '0 2px 6px rgba(0,0,0,0.9)',
                 }}
               >
                 {slot.title}
+              </p>
+            </div>
+          )}
+
+          {slot.game?.data?.title && (
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 py-2">
+              <p
+                className="line-clamp-2 text-center text-2xs font-semibold leading-snug text-white"
+                style={{
+                  textShadow: '0 2px 6px rgba(0,0,0,0.9)',
+                }}
+              >
+                {slot.game?.data?.title}
               </p>
             </div>
           )}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { toPng } from 'html-to-image';
+import { toSvg } from 'html-to-image';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { BingoCard, encodeCardToUrl } from '@/types/bingo';
@@ -27,12 +27,6 @@ export const ActionButtons = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const handleShare = async () => {
-    const filledSlots = card.slots.filter((s) => s.title).length;
-    if (filledSlots === 0) {
-      toast.error('Add some titles first!');
-      return;
-    }
-
     const url = encodeCardToUrl(card);
     try {
       await navigator.clipboard.writeText(url);
@@ -47,23 +41,15 @@ export const ActionButtons = ({
   const handleExport = async () => {
     if (!cardRef.current) return;
 
-    const filledSlots = card.slots.filter((s) => s.title || s.imageUrl).length;
-    if (filledSlots === 0) {
-      toast.error('Add some content first!');
-      return;
-    }
-
     try {
       toast.loading('Generating image...', { id: 'export' });
 
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 1,
-        pixelRatio: 2,
-        backgroundColor: '#f8f9fc',
+      const dataUrl = await toSvg(cardRef.current, {
+        cacheBust: true,
       });
 
       const link = document.createElement('a');
-      link.download = `${card.title}.png`;
+      link.download = `${card.title.toLowerCase()}.svg`;
       link.href = dataUrl;
       link.click();
 
