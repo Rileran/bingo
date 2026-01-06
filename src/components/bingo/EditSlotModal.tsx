@@ -114,7 +114,7 @@ export const EditSlotModal = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center">
-            Edit Slot {slot ? slot.id + 1 : ''}
+            Edit Tile {slot ? slot.id + 1 : ''}
           </DialogTitle>
         </DialogHeader>
 
