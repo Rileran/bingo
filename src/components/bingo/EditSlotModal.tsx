@@ -40,12 +40,7 @@ export const EditSlotModal = ({
 
     if (imageUrl) {
       try {
-        const url = new URL(imageUrl);
-
-        if (!url.hostname.endsWith('igdb.com')) {
-          setError('Image URL must be from igdb.com');
-          return;
-        }
+        new URL(imageUrl);
       } catch {
         setError('Image URL is not a valid URL');
         return;
@@ -106,7 +101,7 @@ export const EditSlotModal = ({
             <Label htmlFor="imageUrl">Image URL</Label>
             <Input
               id="imageUrl"
-              placeholder="Paste image URL here... (only igdb.com)"
+              placeholder="Paste image URL here..."
               value={imageUrl}
               onChange={(e) => {
                 setImageUrl(e.target.value);
