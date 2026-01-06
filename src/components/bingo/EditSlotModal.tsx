@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BingoSlot } from '@/types/bingo';
 import {
   Dialog,
@@ -41,6 +41,8 @@ export const EditSlotModal = ({
     AutocompleteResult | undefined
   >(undefined);
 
+  const gameInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (slot) {
       setTitle(slot.title);
@@ -49,6 +51,16 @@ export const EditSlotModal = ({
       setSelectedOption(slot.game);
     }
   }, [slot]);
+
+  useEffect(() => {
+    if (open && title && !selectedOption) {
+      setTimeout(() => {
+        gameInputRef.current?.focus();
+      }, 0);
+    }
+    // Only run when `open` changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const handleSave = () => {
     if (!slot) return;
@@ -137,7 +149,7 @@ export const EditSlotModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="imageSearch">Select Game</Label>
+            <Label htmlFor="gameInput">Game</Label>
             <div className="relative">
               {selectedOption ? (
                 <div className="flex items-center gap-2 rounded-md border bg-muted px-3 py-2">
@@ -158,7 +170,8 @@ export const EditSlotModal = ({
                 </div>
               ) : (
                 <Input
-                  id="imageSearch"
+                  id="gameInput"
+                  ref={gameInputRef}
                   placeholder="Search game..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
