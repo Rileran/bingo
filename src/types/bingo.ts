@@ -1,6 +1,9 @@
+import { AutocompleteResult } from '@/lib/backloggd';
+
 export interface BingoSlot {
   id: number;
   title: string;
+  game?: AutocompleteResult;
   imageUrl: string;
 }
 

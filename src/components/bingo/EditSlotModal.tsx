@@ -17,12 +17,6 @@ import {
   fetchImageUrl,
 } from '@/lib/backloggd';
 
-interface ImageOption {
-  id: string;
-  label: string;
-  imageUrl: string;
-}
-
 interface EditSlotModalProps {
   slot: BingoSlot | null;
   open: boolean;
@@ -52,6 +46,7 @@ export const EditSlotModal = ({
       setTitle(slot.title);
       setImageUrl(slot.imageUrl);
       setSearch('');
+      setSelectedOption(slot.game);
     }
   }, [slot]);
 
@@ -174,7 +169,6 @@ export const EditSlotModal = ({
                 <Loader2 className="absolute right-3 top-2.5 h-4 w-4 animate-spin text-muted-foreground" />
               )}
             </div>
-            {/* Results list */}
             {options.length > 0 && (
               <div className="max-h-48 overflow-auto rounded-md border">
                 {options.map((option) => (
@@ -185,7 +179,7 @@ export const EditSlotModal = ({
                     className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-muted"
                   >
                     <span className="text-sm">
-                      {option.value} ({option.data.year})
+                      {option.data.title} ({option.data.year})
                     </span>
                   </button>
                 ))}
