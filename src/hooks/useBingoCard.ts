@@ -5,9 +5,10 @@ import {
   createEmptyCard,
   decodeUrlToTitles,
 } from '@/types/bingo';
+import { useLocalStorage } from './use-localstorage';
 
 export const useBingoCard = () => {
-  const [card, setCard] = useState<BingoCard>(createEmptyCard);
+  const [card, setCard] = useLocalStorage<BingoCard>('card', createEmptyCard());
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 
   useEffect(() => {
@@ -22,25 +23,31 @@ export const useBingoCard = () => {
         window.history.replaceState({}, '', window.location.pathname);
       }
     }
-  }, []);
+  }, [setCard]);
 
-  const updateSlot = useCallback((id: number, updates: Partial<BingoSlot>) => {
-    setCard(({ slots, ...rest }) => ({
-      slots: slots.map((slot) =>
-        slot.id === id ? { ...slot, ...updates } : slot
-      ),
-      ...rest,
-    }));
-  }, []);
+  const updateSlot = useCallback(
+    (id: number, updates: Partial<BingoSlot>) => {
+      setCard(({ slots, ...rest }) => ({
+        slots: slots.map((slot) =>
+          slot.id === id ? { ...slot, ...updates } : slot
+        ),
+        ...rest,
+      }));
+    },
+    [setCard]
+  );
 
-  const updateTitle = useCallback((title: string) => {
-    setCard((card) => ({ ...card, title }));
-  }, []);
+  const updateTitle = useCallback(
+    (title: string) => {
+      setCard((card) => ({ ...card, title }));
+    },
+    [setCard]
+  );
 
   const clearCard = useCallback(() => {
     setCard(createEmptyCard());
     setIsTemplateLoaded(false);
-  }, []);
+  }, [setCard]);
 
   return {
     card,
